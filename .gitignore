@@ -1,0 +1,15 @@
+.project
+.settings/
+**/.classpath
+**/.project
+**/.settings
+**/target
+target/
+.attach*
+logs/
+.factorypath
+.metadata/
+.sonarlint/
+microservice-template/.factorypath
+/.idea
+

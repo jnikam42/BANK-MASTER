@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+	<Properties>
+		<Property name="APP_LOG_FOLDER">../logs</Property>
+		<Property name="LOG_LEVEL">info</Property>
+	</Properties>
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="%d{HH:mm:ss.SSS} [%t] %-5level [%X{traceId}-%X{spanId}] %logger{36} - %msg%n" /> 
+		</Console>
+		<RollingFile name="RollingFile"
+			fileName="${env:APP_LOG_FOLDER}/Bank_Product_Feature_data.log"
+			filePattern="${env:APP_LOG_FOLDER}/backup/Bank_Product_Feature_data-%d{yyyy-MM-dd}.log.gz">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level [%X{traceId}-%X{spanId}] %logger{36} - %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+			</Policies>
+			<DefaultRolloverStrategy fileIndex="max" />
+		</RollingFile>
+		
+		<RollingFile name="RollingErrorFile"
+			fileName="${env:APP_LOG_FOLDER}/Bank_Product_Feature_data_error.log"
+			filePattern="${env:APP_LOG_FOLDER}/Bank_Product_Feature_data_error.log-%d{yyyy-MM-dd}.log.gz">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level [%X{traceId}-%X{spanId}] %logger{36} - %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+			</Policies>
+			<DefaultRolloverStrategy fileIndex="max" />
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<Root level="${env:LOG_LEVEL}">
+            <AppenderRef ref="RollingFile" level="${env:LOG_LEVEL}"/>
+            <AppenderRef ref="Console" level="${env:LOG_LEVEL}"/>
+            <AppenderRef ref="RollingErrorFile" level="error"/>
+        </Root>
+        <Logger name="org.springframework.boot" level="${env:LOG_LEVEL}" additivity="false">
+            <AppenderRef ref="Console" />
+        </Logger>
+	</Loggers>
+</Configuration>
